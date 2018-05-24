@@ -7,7 +7,6 @@ Pod::Spec.new do |s|
   s.homepage     = "https://github.com/baishiyun/BSYLoadingView" # 你的主页
   s.source       = { :git => "https://github.com/baishiyun/BSYLoadingView.git", :tag => "#{s.version}" }
   s.source_files =  "BSYAlertBox/*.{h,m}"
-  s.exclude_files = "BSYAlertBox/loading.png"
   s.requires_arc = true 
   s.platform     = :ios, "7.0" 
   s.frameworks   = "UIKit", "Foundation"
