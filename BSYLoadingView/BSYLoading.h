@@ -79,7 +79,7 @@
  @param TextFont 文本字体
  */
 
-+(void)showCrazyCircleWithColor:(UIColor *)CircleColor BgColor:(UIColor *)BgColor Text:(NSString *)text TextColor:(UIColor *)TextColor TextFont:(UIFont *)TextFont;
++(void)showCrazyCircleWithColor:(UIColor *)CircleColor BgColor:(UIColor *)BgColor Text:(NSString *)text TextColor:(UIColor *)TextColor TextFont:(CGFloat)TextFont;
 
 /**
  文字和菊花
@@ -90,5 +90,5 @@
  @param TextFont 文本字体
  @param TextAlignment 文本对其方法
  */
-+(void)showCrazyCircleWithColor:(UIColor *)CircleColor BgColor:(UIColor *)BgColor Text:(NSString *)text TextColor:(UIColor *)TextColor TextFont:(UIFont *)TextFont TextAlignment:(NSTextAlignment)TextAlignment;
++(void)showCrazyCircleWithColor:(UIColor *)CircleColor BgColor:(UIColor *)BgColor Text:(NSString *)text TextColor:(UIColor *)TextColor TextFont:(CGFloat)TextFont TextAlignment:(NSTextAlignment)TextAlignment;
 @end

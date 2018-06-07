@@ -16,9 +16,12 @@
 // 文本默认对齐方式
 #define DefalutTextTextAlignment NSTextAlignmentCenter
 // 文本默认字体大小
-#define DefalutTextTextFont 11
+#define DefalutTextTextFont  17.00
 // 获取最后一个有效Window
 #define MainWindow [UIApplication sharedApplication].windows.lastObject
+
+//默认背景宽度
+#define DefalutBGWith  150
 
 #define bgViewTag 99999999999999
 #import "BSYLoading.h"
@@ -33,10 +36,12 @@
 +(void)showCrazyCircle
 {
 
+
     if ([self have]==true) {
         return;
     }
     UIImageView *loading = [self returnCrazyCircleLoadingView];
+    loading.frame = CGRectMake(50, 0, 50, 50);
     UIView *bgView =  [self returnBgView];
     [bgView addSubview:loading];
     [self setAnimationWithloadingImage:loading];
@@ -54,6 +59,7 @@
     }
     CircleColor =CircleColor?CircleColor:DefalutCrazyCircleColor;
     UIImageView *loading = [self returnCrazyCircleLoadingView];
+    loading.frame = CGRectMake(50, 0, 50, 50);
     loading.image = [self imageWithColor:CircleColor Image:loading.image];
     UIView *bgView =  [self returnBgView];
     [bgView addSubview:loading];
@@ -75,6 +81,7 @@
     BgColor  =BgColor?BgColor:DefalutCrazyCircleBgColor;
     UIImageView *loading = [self returnCrazyCircleLoadingView];
     loading.image = [self imageWithColor:CircleColor Image:loading.image];
+    loading.frame = CGRectMake(50, 0, 50, 50);
     UIView *bgView =  [self returnBgView];
     bgView.backgroundColor = BgColor;
     [bgView addSubview:loading];
@@ -96,14 +103,21 @@
         return;
     }
     text  =text?([text isEqualToString:@""]?@"加载中···":text):@"加载中···";
+
     //菊花
     UIImageView *loading = [self returnCrazyCircleLoadingView];
-    loading.frame = CGRectMake(35, 0, 30, 30);
-    loading.layer.cornerRadius = 15;
     //文本
     UILabel *Text  =[self returnTextString];
     Text.text = text;
     UIView *bgView =  [self returnBgView];
+
+    //计算文本宽度，更新背景/Lable宽度
+    CGFloat With = [self widthForString:text fontSize:DefalutTextTextFont];
+    if (With>DefalutBGWith){
+        bgView.frame = CGRectMake((MainWindow.bounds.size.width-With)/2.0, (MainWindow.bounds.size.height-50)/2.0, With, 50);
+        Text.frame =CGRectMake(50, 0, With-50, 50);
+    }
+
     [bgView addSubview:Text];
     [bgView addSubview:loading];
     //动画
@@ -127,12 +141,17 @@
     //菊花
     UIImageView *loading = [self returnCrazyCircleLoadingView];
     loading.image = [self imageWithColor:CircleColor Image:loading.image];
-    loading.frame = CGRectMake(35, 0, 30, 30);
-    loading.layer.cornerRadius = 15;
     //文本
     UILabel *Text  =[self returnTextString];
     Text.text = text;
     UIView *bgView =  [self returnBgView];
+
+    //计算文本宽度，更新背景/Lable宽度
+    CGFloat With = [self widthForString:text fontSize:DefalutTextTextFont];
+    if (With>DefalutBGWith){
+        bgView.frame = CGRectMake((MainWindow.bounds.size.width-With)/2.0, (MainWindow.bounds.size.height-50)/2.0, With, 50);
+        Text.frame =CGRectMake(50, 0, With-50, 50);
+    }
     [bgView addSubview:Text];
     [bgView addSubview:loading];
     //动画
@@ -159,13 +178,18 @@
     //菊花
     UIImageView *loading = [self returnCrazyCircleLoadingView];
     loading.image = [self imageWithColor:CircleColor Image:loading.image];
-    loading.frame = CGRectMake(35, 0, 30, 30);
-    loading.layer.cornerRadius = 15;
     //文本
     UILabel *Text  =[self returnTextString];
     Text.textColor = TextColor;
     Text.text = text;
     UIView *bgView =  [self returnBgView];
+
+    //计算文本宽度，更新背景/Lable宽度
+    CGFloat With = [self widthForString:text fontSize:DefalutTextTextFont];
+    if (With>DefalutBGWith){
+        bgView.frame = CGRectMake((MainWindow.bounds.size.width-With)/2.0, (MainWindow.bounds.size.height-50)/2.0, With, 50);
+        Text.frame =CGRectMake(50, 0, With-50, 50);
+    }
     [bgView addSubview:Text];
     [bgView addSubview:loading];
     //动画
@@ -193,14 +217,19 @@
     //菊花
     UIImageView *loading = [self returnCrazyCircleLoadingView];
     loading.image = [self imageWithColor:CircleColor Image:loading.image];
-    loading.frame = CGRectMake(35, 0, 30, 30);
-    loading.layer.cornerRadius = 15;
     //文本
     UILabel *Text  =[self returnTextString];
     Text.textColor = TextColor;
     Text.text = text;
     UIView *bgView =  [self returnBgView];
     bgView.backgroundColor = BgColor;
+
+    //计算文本宽度，更新背景/Lable宽度
+    CGFloat With = [self widthForString:text fontSize:DefalutTextTextFont];
+    if (With>DefalutBGWith){
+        bgView.frame = CGRectMake((MainWindow.bounds.size.width-With)/2.0, (MainWindow.bounds.size.height-50)/2.0, With, 50);
+        Text.frame =CGRectMake(50, 0, With-50, 50);
+    }
     [bgView addSubview:Text];
     [bgView addSubview:loading];
     //动画
@@ -217,7 +246,7 @@
  @param TextFont 文本字体
  */
 
-+(void)showCrazyCircleWithColor:(UIColor *)CircleColor BgColor:(UIColor *)BgColor Text:(NSString *)text TextColor:(UIColor *)TextColor TextFont:(UIFont *)TextFont
++(void)showCrazyCircleWithColor:(UIColor *)CircleColor BgColor:(UIColor *)BgColor Text:(NSString *)text TextColor:(UIColor *)TextColor TextFont:(CGFloat)TextFont
 {
 
     if ([self have]==true) {
@@ -227,20 +256,26 @@
     CircleColor =CircleColor?CircleColor:DefalutCrazyCircleColor;
     BgColor  =BgColor?BgColor:DefalutCrazyCircleBgColor;
     TextColor = TextColor?TextColor:DefalutTextTextColor;
-    TextFont = TextFont?TextFont:[UIFont systemFontOfSize:DefalutTextTextFont];
+    TextFont = TextFont?TextFont:(CGFloat)DefalutTextTextFont;
 
     //菊花
     UIImageView *loading = [self returnCrazyCircleLoadingView];
     loading.image = [self imageWithColor:CircleColor Image:loading.image];
-    loading.frame = CGRectMake(35, 0, 30, 30);
-    loading.layer.cornerRadius = 15;
     //文本
     UILabel *Text  =[self returnTextString];
     Text.textColor = TextColor;
     Text.text = text;
-    Text.font =TextFont;
+    Text.font =[UIFont systemFontOfSize:TextFont];
+
     UIView *bgView =  [self returnBgView];
     bgView.backgroundColor = BgColor;
+
+    //计算文本宽度，更新背景/Lable宽度
+    CGFloat With = [self widthForString:text fontSize:DefalutTextTextFont];
+    if (With>DefalutBGWith){
+        bgView.frame = CGRectMake((MainWindow.bounds.size.width-With)/2.0, (MainWindow.bounds.size.height-50)/2.0, With, 50);
+        Text.frame =CGRectMake(50, 0, With-50, 50);
+    }
     [bgView addSubview:Text];
     [bgView addSubview:loading];
     //动画
@@ -256,7 +291,7 @@
  @param TextFont 文本字体
  @param TextAlignment 文本对其方法
  */
-+(void)showCrazyCircleWithColor:(UIColor *)CircleColor BgColor:(UIColor *)BgColor Text:(NSString *)text TextColor:(UIColor *)TextColor TextFont:(UIFont *)TextFont TextAlignment:(NSTextAlignment)TextAlignment
++(void)showCrazyCircleWithColor:(UIColor *)CircleColor BgColor:(UIColor *)BgColor Text:(NSString *)text TextColor:(UIColor *)TextColor TextFont:(CGFloat)TextFont TextAlignment:(NSTextAlignment)TextAlignment
 {
 
     if ([self have]==true) {
@@ -266,22 +301,28 @@
     CircleColor =CircleColor?CircleColor:DefalutCrazyCircleColor;
     BgColor  = BgColor?BgColor:DefalutCrazyCircleBgColor;
     TextColor = TextColor?TextColor:DefalutTextTextColor;
-    TextFont = TextFont?TextFont:[UIFont systemFontOfSize:DefalutTextTextFont];
+    TextFont = TextFont?TextFont:(CGFloat)DefalutTextTextFont;
     TextAlignment = TextAlignment?TextAlignment:DefalutTextTextAlignment;
 
     //菊花
     UIImageView *loading = [self returnCrazyCircleLoadingView];
     loading.image = [self imageWithColor:CircleColor Image:loading.image];
-    loading.frame = CGRectMake(35, 0, 30, 30);
-    loading.layer.cornerRadius = 15;
+
     //文本
     UILabel *Text  =[self returnTextString];
     Text.textColor = TextColor;
     Text.text = text;
-    Text.font =TextFont;
+    Text.font =[UIFont systemFontOfSize:TextFont];
     Text.textAlignment = TextAlignment;
     UIView *bgView =  [self returnBgView];
     bgView.backgroundColor = BgColor;
+
+    //计算文本宽度，更新背景/Lable宽度
+    CGFloat With = [self widthForString:text fontSize:DefalutTextTextFont];
+    if (With>DefalutBGWith){
+        bgView.frame = CGRectMake((MainWindow.bounds.size.width-With)/2.0, (MainWindow.bounds.size.height-50)/2.0, With, 50);
+        Text.frame =CGRectMake(50, 0, With-50, 50);
+    }
     [bgView addSubview:Text];
     [bgView addSubview:loading];
     //动画
@@ -367,7 +408,7 @@
  */
 +(UIImageView *)returnCrazyCircleLoadingView
 {
-    UIImageView *loading = [[UIImageView alloc]initWithFrame:CGRectMake(25, 0, 50, 50)];
+    UIImageView *loading = [[UIImageView alloc]initWithFrame:CGRectMake(0, 0, 50, 50)];
     loading.backgroundColor = [UIColor clearColor];
     loading.image = [UIImage imageNamed:@"loading.png"];
     loading.layer.borderWidth =1;
@@ -382,7 +423,7 @@
  */
 +(UIView *)returnBgView
 {
-    UIView *bgView = [[UIView alloc]initWithFrame:CGRectMake((MainWindow.bounds.size.width-100)/2.0, (MainWindow.bounds.size.height-50)/2.0, 100, 50)];
+    UIView *bgView = [[UIView alloc]initWithFrame:CGRectMake((MainWindow.bounds.size.width-DefalutBGWith)/2.0, (MainWindow.bounds.size.height-50)/2.0, DefalutBGWith, 50)];
     bgView.backgroundColor = [UIColor colorWithRed:0 green:0 blue:0 alpha:0.6];
     [MainWindow addSubview:bgView];
     bgView.layer.borderWidth =1;
@@ -393,15 +434,34 @@
 }
 
 /**
- 创建背景View
+ 创建Text
  @return 返回创建的View
  */
 +(UILabel *)returnTextString
 {
-    UILabel *bgView = [[UILabel alloc]initWithFrame:CGRectMake(0, 30, 100, 20)];
+    UILabel *bgView = [[UILabel alloc]initWithFrame:CGRectMake(50, 0, 100, 50)];
     bgView.textColor  =[UIColor whiteColor];
     bgView.font = [UIFont systemFontOfSize:DefalutTextTextFont];
     bgView.textAlignment = DefalutTextTextAlignment;
     return bgView;
+}
+
+
+/**
+ 计算文本宽度
+
+ @param value 字符串
+ @param fontSize 文本大小
+ @return 返回文本宽度
+ */
++(CGFloat)widthForString:(NSString *)value fontSize:(CGFloat)fontSize
+{
+    CGSize size = [value sizeWithAttributes:@{NSFontAttributeName: [UIFont systemFontOfSize:fontSize]}];
+    //获取宽高
+    CGSize statuseStrSize = CGSizeMake(ceilf(size.width), ceilf(size.height));
+    if (statuseStrSize.width>=MainWindow.bounds.size.width) {
+        statuseStrSize.width =MainWindow.bounds.size.width-20;
+    }
+    return statuseStrSize.width;
 }
 @end
